@@ -7,7 +7,7 @@ export function validate(req: Request, res: Response, next: NextFunction) {
     return res.status(400).json({
       message: 'Validation error',
       details: errors.array().map(e => e.msg),
-      field: errors.array().map(e => e.path ?? "Unknown field"),
+      field: errors.array().map(e => e.type==="field" ? e.path : "Unknown field"),
     });
   }
   next();

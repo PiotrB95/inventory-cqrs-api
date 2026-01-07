@@ -12,15 +12,11 @@ export function errorHandler(
     return res.status(404).json({ message: err.message });
   }
 
-  if (err.message === 'Insufficient stock') {
+  if (err.message.includes('Insufficient stock')) {
     return res.status(400).json({ message: err.message });
   }
 
-  if (err.message === 'Restock amount must be positive') {
-    return res.status(400).json({ message: err.message });
-  }
-
-  if (err.message === 'Sell amount must be positive') {
+  if (err.message.includes('must be positive')) {
     return res.status(400).json({ message: err.message });
   }
 
