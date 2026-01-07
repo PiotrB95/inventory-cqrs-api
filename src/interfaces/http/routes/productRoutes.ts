@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { ProductRepository } from '../../../infrastructure/repositories/productRepository';
+import { CommandBus } from '../../../application/common/commandBus';
+import { QueryBus } from '../../../application/common/queryBus';
 import { createProductValidator } from './productValidators';
 import { validate } from '../middleware/validationMiddleware';
 
-export function createProductRouter() {
+export function createProductRouter(commandBus: CommandBus, queryBus: QueryBus) {
   const router = Router();
-  const productRepo = new ProductRepository();
 
   router.get('/products', async (req, res, next) => {
     try {
-      const products = await productRepo.findAll();
+      const products = await queryBus.execute('GetProducts', undefined);
       res.json(products);
     } catch (e) {
       next(e);
@@ -22,7 +22,7 @@ export function createProductRouter() {
     validate,
     async (req, res, next) => {
       try {
-        const product = await productRepo.create(req.body);
+        const product = await commandBus.execute('CreateProduct', req.body);
         res.status(201).json(product);
       } catch (e) {
         next(e);
