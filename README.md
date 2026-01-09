@@ -236,7 +236,7 @@ http://localhost:3000/customers
 ```json
 {
   "name": "Test Customer",
-  "location": "USA"
+  "location": "US"
 }
 ```
 
